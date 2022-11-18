@@ -1,3 +1,4 @@
+// This code is for a WEATHER FORECAST API and serving as a template for now.
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

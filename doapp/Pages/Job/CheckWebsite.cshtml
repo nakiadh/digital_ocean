@@ -1,0 +1,51 @@
+@page
+@model doapp.Pages.Job.CreateJobModel
+@{
+    ViewData["Title"] = "Check Website";
+
+}
+
+<form method="POST">
+    <div class="form-group row">
+        <label for="name" class="col-sm-2 col-form-label">Job Name</label>
+        <div class="col-sm-10">
+            <input
+                id="name"
+                name="name"
+                type="text"
+                class="form-control"
+                placeholder="Enter job name"
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="url" class="col-sm-2 col-form-label">Website URL</label>
+        <div class="col-sm-10">
+            <input
+                id="url"
+                name="url"
+                type="text"
+                class="form-control"
+                placeholder="Enter website url"
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="jobfrequencyinminutes" class="col-sm-2 col-form-label">Job frequency in minutes</label>
+        <div class="col-sm-10">
+            <input
+                id="jobfrequencyinminutes"
+                name="jobfrequencyinminutes"
+                type="number"
+                class="form-control"
+                min="1"
+                max="60"
+                placeholder="Enter job frequency in minutes"
+        </div>
+    </div>
+    <button class="col-sm-3" type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div class="container">
+    <p>
+        
+    </p>
+</div>

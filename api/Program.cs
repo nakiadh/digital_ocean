@@ -15,8 +15,14 @@ namespace digital_ocean{
     }
         private async Task GetTaskAsync(){
             string response = await client.GetStringAsync("https://jsonplaceholder.typicode.com/todos");
-            Console.WriteLine(respnse);
+            Console.WriteLine(response);
+
+            GetJob get = JsonConvert.DeserializeObject<GetJob>(response);
         }
+    }
+    class GetJob{
+        public int userId{get; set;}
+        public string WebsiteCheckJob {get; set;}
     }
 }
 

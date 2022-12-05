@@ -17,12 +17,16 @@ namespace digital_ocean{
             string response = await client.GetStringAsync("https://jsonplaceholder.typicode.com/todos");
             Console.WriteLine(response);
 
-            GetJob get = JsonConvert.DeserializeObject<GetJob>(response);
+            List <GetJob> get = JsonConvert.DeserializeObject<List<GetJob>(response);
+
+            foreach (var item in GetJob){
+                Console.WriteLine(item.title);
+            }
         }
     }
     class GetJob{
         public int userId{get; set;}
-        public string WebsiteCheckJob {get; set;}
+        public string title {get; set;}
     }
 }
 

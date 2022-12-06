@@ -10,8 +10,5 @@ using Microsoft.EntityFrameworkCore.Design;
 
 public class CheckWebsite 
 {
-    public int TheAdder (int x, int y)
-    {
-        return x + y;
-    }
+    
 }

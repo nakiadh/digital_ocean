@@ -12,9 +12,9 @@ namespace doapp.Pages.Job
 {
     public class CreateJobModel : PageModel
     {
-        [BindProperty]
+        /* [BindProperty]
         public WebsiteCheckJob? Job { get; set; }
-        public List<WebsiteCheckJob>? Jobs { get; set; }
+        public List<WebsiteCheckJob>? Jobs { get; set; } */
 
         
     }

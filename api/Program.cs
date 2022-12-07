@@ -1,34 +1,70 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Services.CheckWebsite;
+using Services.CheckWebsiteDataService;
+using Services.WebsiteInfoService;
 
-namespace digital_ocean{
+// background worker
+using JobWorker;
 
-    class Program{
-        HttpClient client = new HttpClient();
+// SETUP
+var builder = WebApplication.CreateBuilder(args);
 
-        static async Task Main (string[]args){
-        Program program = new Program();
-        await program.GetTaskAsync();
-    }
-        private async Task GetTaskAsync(){
-            string response = await client.GetStringAsync("https://jsonplaceholder.typicode.com/todos");
-            Console.WriteLine(response);
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddHostedService<Worker>();
 
-            List <GetJob> get = JsonConvert.DeserializeObject<List<GetJob>(response);
+var app = builder.Build();
 
-            foreach (var item in GetJob){
-                Console.WriteLine(item.title);
-            }
-        }
-    }
-    class GetJob{
-        public int userId{get; set;}
-        public string title {get; set;}
-    }
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+var stations = new[]{""};
+
+// ENDPOINTS
+// GET /job/all
+app.Get("/jobs/all", async () => {
+    List<Website> jobs = await JobScheduler.GetWeatherReportJobsAsync();
+    return jobs;
+});
+
+app.MapGet("/jobs/due", async () => {
+    List<Website> jobs = await JobScheduler.GetScheduledJobsToRunAsync();
+    return jobs;
+});
+
+// POST /job/create 
+app.Post(
+    "/jobs/create",
+    // do stuff here
+    async (Website? job) => {
+        var output = await JobScheduler.ScheduleReportJobAsync(job!);
+        return output;
+    }
+);
+
+// GET /obs/{station}
+app.Get(
+    "/obs/{id}/raw", 
+    async (string id) => {
+
+        Observation? obs = await CheckWebsite.GetLastestAsync(id);
+        // write to db here (call wep service to write to db)
+        Console.WriteLine($"Returned value: {obs?.RawMessage}");
+        return obs?.RawMessage;
+    }
+);
+
+// EXECUTE
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0#working-with-ports
+app.Run("https://localhost:3000");
+
 
 
 
